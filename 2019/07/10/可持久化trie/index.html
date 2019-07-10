@@ -90,7 +90,7 @@
 		
 		
 			<i class="iconfont icon-words"></i>
-			<span class="post-info-entry">1908
+			<span class="post-info-entry">1911
 			</span>
 		
 	</div>
@@ -113,12 +113,12 @@
 <li>remove a，将字符串a的记录移除，假若a不存在，则do nothing。</li>
 <li>query a，查询有多少个字符串的priority严格小于a</li>
 <li>undo d，假设当前是第i次操作，则将结构恢复到第i-d-1操作后的状态</li>
-<li>操作次数上限为10^5，字符串长度不会超过15，x范围是[1,10^9]，保证d合法</li>
+<li>操作次数上限为10^5，字符串长度不会超过15，x范围是[1,10^9]，保证undo操作合法</li>
 </ol>
 <p>我们首先不考虑undo操作的话，经过思考，我们会发现应该需要两个数据结构，第一个用于维护字符串和priority的对应关系；第二个用于储存所有的priority用于查询rank。显然，第一个结构随便用一个hashmap或者trie，第二个使用一个能够查询rank的BST，e.g. treap, splay就能够完成。</p>
 <hr>
 <p>ds<-> data structure </-></p>
-<p>然而，现在+上了undo操作，这意味着我们需要把历史记录依然保存下来。具体实现便是使用两个数组firstds[max_operation_num], secondds[max_operation_num]在进行第i次操作时便读取firstds[i-1]和secondds[i-1]中的数据结构，然后将修改之后的数据结构放入firstds[i]和secondds[i]中，注意！我们这里不能够对第i-1位上的两个数据结构进行任何修改。</p>
+<p>然而，现在+上了undo操作，这意味着我们需要把历史记录保存下来。具体实现便是使用两个数组firstds[max_operation_num], secondds[max_operation_num]在进行第i次操作时便读取firstds[i-1]和secondds[i-1]中的数据结构，然后将修改之后的数据结构放入firstds[i]和secondds[i]中，注意！我们这里不能够对第i-1位上的两个数据结构进行任何修改。</p>
 <p>假设我们依然采用之前的hashmap和BST，每一次操作我们都需要将之前的结构copy一遍然后再进行操作，无论是空间上还是时间上都感觉……太暴力了。</p>
 <hr>
 <p>让我们考虑一下第一个结构使用trie以及set一个原本不存在的字符串的情况。无妨说第一条指令是set aaa 5，insert之后的结果就是</p>
