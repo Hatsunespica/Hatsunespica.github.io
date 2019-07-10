@@ -90,7 +90,7 @@
 		
 		
 			<i class="iconfont icon-words"></i>
-			<span class="post-info-entry">1906
+			<span class="post-info-entry">1908
 			</span>
 		
 	</div>
@@ -141,7 +141,7 @@
 <p><img src="https://s2.ax1x.com/2019/07/10/ZcrKxg.png" alt="图4"></p>
 <p>我们可以发现，从根节点到某一个节点n所经过的路径path，节点n上的对应的值就是以path为前缀的int出现次数。那么对应某一个int n我们如何查询它的rank呢？算法描述如下：</p>
 <p>定义局部变量now=root，ans=0表示答案，迭代变量i : 从n的最高位-&gt;n的最低位</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(<span class="name">i==1</span>)</span><br><span class="line">	ans=ans+(<span class="name">now</span>经过<span class="number">0</span>所指向的节点上的值)</span><br><span class="line">now=(<span class="name">now</span>经过i所指向的节点)</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">i</span>==<span class="number">1</span>)</span><br><span class="line">​	<span class="built_in">ans</span>=<span class="built_in">ans</span>+(now经过<span class="number">0</span>所指向的节点上的值)</span><br><span class="line">​now=(now经过<span class="built_in">i</span>所指向的节点)</span><br></pre></td></tr></table></figure>
 <p>正确性？想一想就知道了嘛</p>
 <hr>
 <p>最后，题目的AC代码:</p>
