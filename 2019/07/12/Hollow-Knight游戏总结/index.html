@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/images/safari-pinned-tab.svg">
+    
+
+
+    <!-- meta -->
+
+
+<title>Hollow Knight游戏总结 | Spica&#39;s Blog</title>
+
+
+    <meta name="keywords" content="总结">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Hollow Knight游戏总结这是一篇有关于Hollow Knight的总结，不过我个人比较弱鸡就是了，估计低于平均水平。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hollow Knight游戏总结">
+<meta property="og:url" content="http://spica.cloud/2019/07/12/Hollow-Knight%E6%B8%B8%E6%88%8F%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Spica&#39;s Blog">
+<meta property="og:description" content="Hollow Knight游戏总结这是一篇有关于Hollow Knight的总结，不过我个人比较弱鸡就是了，估计低于平均水平。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/24/eE4pBn.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/24/eEhxXj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/24/eE497q.jpg">
+<meta property="article:published_time" content="2019-07-12T12:03:13.000Z">
+<meta property="article:modified_time" content="2019-12-21T11:25:54.642Z">
+<meta property="article:author" content="Spica">
+<meta property="article:tag" content="总结">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/24/eE4pBn.jpg">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Spica&#39;s blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/page/" class="navbar-menu button">about</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/page/" class="dropdown-menu button">about</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        Hollow Knight游戏总结
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2019/07/" class="post-meta__date button">2019-07-12</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E6%B8%B8%E6%88%8F/" class="button">游戏</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+
+<article class="post content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h1 id="Hollow-Knight游戏总结"><a href="#Hollow-Knight游戏总结" class="headerlink" title="Hollow Knight游戏总结"></a>Hollow Knight游戏总结</h1><p>这是一篇有关于Hollow Knight的总结，不过我个人比较弱鸡就是了，估计低于平均水平。</p>
+<span id="more"></span>
+
+<hr>
+<p>BOSS篇：</p>
+<p>有没有黑冲是两种打法。</p>
+<p>个人倾向：物理流，骨钉优先升满。</p>
+<p>神居万年徽章搭配：</p>
+<ul>
+<li>坚固力量 提升50%骨钉平A伤害，满级骨钉 21 -&gt; 32</li>
+<li>骄傲印记 提升25%攻击距离，距离和凹槽的比值为8.3%，优于修长之钉的7.5%</li>
+<li>快速劈砍 提升54%攻击速度</li>
+<li>稳定之体 取消骨钉攻击时的后坐力</li>
+<li>骨钉大师的荣耀 缩短剑技蓄力时间 1.75s -&gt; 0.75s ，坚固力量不加成剑技。回旋斩1.25倍伤害，向下取整，3~7下；蓄力斩和冲刺斩2.5倍伤害，向下取整。冲刺斩有着很优秀的X方向的攻击距离，而蓄力斩则是Y方向。</li>
+</ul>
+<p>神居辐辉：坚固力量、骄傲印记、快速劈砍、稳定之体和荣耀择一换成萨满之石。</p>
+<p>各路BOSS实际上也没有太难，基本上是背板就能够过的，当然也有几个比较看运气的。</p>
+<hr>
+<p>BOSS战输出点：</p>
+<ul>
+<li>BOSS一次攻击结束后到下一次攻击开始前的空档</li>
+<li>BOSS的攻击过程中的蹭血，例如利用黑下砸的无敌不仅躲避攻击还能带来伤害、拉远距离在远处放波、利用黑冲冲到BOSS身后回头砍、或者直接下劈BOSS等。</li>
+<li>BOSS的硬直时间</li>
+<li>故意造成伤害后的无敌时间</li>
+</ul>
+<p>至于在打BOSS过程中怎么蹭血最大化，各种BOSS的蹭血方式各有千秋。 比如灵魂大师\暴君的下砸也能蹭，格林的地火也能蹭好多刀，回旋斩蹭小姐姐，多看多学，学不来也没关系，只要这个BOSS的各种攻击都能躲了，那就能够无伤了，不能也只是时间问题而已。此外，需要提及的一点就是，我个人感觉比较一个特殊的BOSS就是斯莱。他的攻击的最后一刀是根据你的位置来判断的，假若你站的较远，则他并不会把最后一刀打出来，但是实际上我蹭血很大一部分就是在他最后一刀的后摇的时候蹭的。所以打这个BOSS的时候需要刻意将距离保持在一个不远但是又不能被击中的范围内。打辐辉的时候很让我有来回的感觉。</p>
+<p>一般BOSS的硬直时间都不长，可以冲脸一个下砸，或者干脆站远点回血。</p>
+<hr>
+<p>BOSS战的回血点：</p>
+<ul>
+<li>BOSS的硬直时间</li>
+<li>BOSS在某些攻击的过程中。例如蜂巢骑士吐小蜜蜂，梦魇之王的地火引诱完之后可以回1格</li>
+</ul>
+<p>有些战斗是不建议回血的，例如最后的纯粹容器，回血时机仅有硬直时间是绝对安全。同时纯粹容器一次2格伤害，回血意义不大。在没有防御者勋章的情况下挑战失落近亲时，回血也会经常被小怪所干扰。梦魇之王尽管也是2格伤害，但他的地火之后可以回，硬直时间也可以回，频率较高，因此能够苟。</p>
+<hr>
+<p>躲避BOSS的攻击：</p>
+<ul>
+<li>利用黑冲和BOSS对冲 一般用来应付直线型的攻击，此时携带“锋利之影”徽章即可蹭血</li>
+<li>下砸的无敌时间 只要抓准时机即可，同时黑砸的伤害也较可观。例如躲避守望者骑士的滚动同时可以一下砸2只，神之驯服者的滚动等。</li>
+<li>下劈 可以用来对付直线型攻击，也可以下劈一些别的，例如在空中下劈反击蝇之王、有翼诺斯克，冲过来的灵魂大师&#x2F;暴君等。</li>
+<li>跳跃 虽然比较基本，可以躲波，比如假骑士&#x2F;失败冠军的波，小姐姐的直线针等</li>
+<li>蹭墙 在墙上不断跳跃或快速按“水晶之心”键，在竞技场3需要熟练此项技能。只针对特定BOSS时需要用墙壁，例如乌姆。在实在不知道怎么躲避时试试这个也许有奇效。</li>
+<li>单纯拉开距离 利用冲刺快速拉远距离躲避近身攻击，例如假骑士&#x2F;失败冠军的左右砸地，小姐姐的弹反等。</li>
+</ul>
+<p>黑冲和下砸有无敌什么都能躲，但后期的BOSS很多都是需要组合上述行动进行躲避，例如梦魇之王的下冲，需要下劈+黑冲。此外需要注意的一点是躲避不是我们的目的，我们的目的是规避伤害之后进行输或者在规避伤害时进行输出。我们的重点是在<strong>输出</strong>上。</p>
+<p>所以打BOSS实际上就是根据BOSS的行动来行动，要么就是(躲避, 输出)组合或不管血量的(输出, 输出)组合，再在中间穿插几个回血点即可。</p>
+<p>不过这之中有一类BOSS比较特殊，它们不攻击的时候会在场上消失，因此输出点下的“空档输出”和“故意伤害输出”就作用微弱甚至不可，例如螳螂领主，格林和梦魇之王。因此在对付这一类敌人的时候我们需要把自己的输出时段调整至和BOSS的输出时段吻合，也就是俗称的“打节奏”，需要边躲避边蹭血。 说战斗姐妹的话，场上出现得实在太频繁了……</p>
+<hr>
+<p>输出手段：</p>
+<p>我们首先看一下物理和法术的伤害对比，红泪是指“亡者之怒”</p>
+<p><img src="https://s2.ax1x.com/2019/07/24/eE4pBn.jpg" alt="物理攻击"></p>
+<p><img src="https://s2.ax1x.com/2019/07/24/eEhxXj.jpg" alt="法术攻击"></p>
+<p>我们依据上述图可以发现一次法术释放带来的输出是要十分优于一次平A输出的，再加上下表我们来做一个比较：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>普通平A</th>
+<th>波</th>
+<th>下砸</th>
+<th>吼</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优点</td>
+<td>无任何副作用，回复灵魂</td>
+<td>远程攻击，当敌人移动方向与波方向相同时能打出多段伤害</td>
+<td>伤害可观，有无敌时间</td>
+<td>伤害最高，同时能够滞空</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>攻击范围有限</td>
+<td>消耗与下砸和吼相同但是输出却相差有点大……觉得有点可惜</td>
+<td>下砸的前摇不是无敌而且需要预判</td>
+<td>没有无敌时间</td>
+</tr>
+</tbody></table>
+<p>平A回复灵魂，而且灵魂满了之后不会再回复，此时攻击相当于没有获得灵魂，也就相当于直接丢失了输出。因此尽量不要让灵魂回满。我个人的习惯是留下1&#x2F;3用作救急下砸，剩下的该怎么用就怎么用，哪怕放一发波都比直接浪费好。</p>
+<p>此外，还有一些护符的伤害也可以考虑</p>
+<p><img src="https://s2.ax1x.com/2019/07/24/eE497q.jpg" alt="护符伤害"></p>
+<p>这里我个人前中期用得比较多的就是苦痛荆棘……防御者纹章在挑战失落近亲时有阻挡小怪的效果。剩下的召唤护符就只在竞技场3玩娱乐召唤流试过，没有正式打BOSS试过。</p>
+<p>references:</p>
+<p><a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/6026244255?pn=1">数值</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.vgtime.com/topic/1047240.jhtml">护符数据</a></p>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>更新于 2019-12-21</p></div> 
+    <div class="post-entry__tags"><a href="/tags/%E6%80%BB%E7%BB%93/" class="post-tags__link button"># 总结</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2019/11/27/CF-Educational-round-76-%E8%A1%A5%E9%A2%98%E6%80%BB%E7%BB%93/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            CF Educational round 76 补题总结
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2019/07/09/%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96trie/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            可持久化trie和二进制trie
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2022 <a href="/">Spica&#39;s Blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    </body>
+</html>

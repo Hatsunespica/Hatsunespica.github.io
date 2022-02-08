@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/images/safari-pinned-tab.svg">
+    
+
+
+    <!-- meta -->
+
+
+<title>CF Round 688 (Div.2) 题解 | Spica&#39;s Blog</title>
+
+
+    <meta name="keywords" content="总结">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="前言  这一场也还是比较简单的…..对着题解都能够做出来   A. Cancel the Trains签到题，给定一些x轴和y轴上的点(x_i,0)和(0,y_i)问有多少个点对满足x_i &#x3D;&#x3D; y_i。由于x_i和y_i的都很小，所以开一个类似于桶排序的数组记录一下就好 123456789101112131415161718192021222324252627#include">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF Round 688 (Div.2) 题解">
+<meta property="og:url" content="http://spica.cloud/2021/06/20/CF-Round-688-Div-2-%E9%A2%98%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Spica&#39;s Blog">
+<meta property="og:description" content="前言  这一场也还是比较简单的…..对着题解都能够做出来   A. Cancel the Trains签到题，给定一些x轴和y轴上的点(x_i,0)和(0,y_i)问有多少个点对满足x_i &#x3D;&#x3D; y_i。由于x_i和y_i的都很小，所以开一个类似于桶排序的数组记录一下就好 123456789101112131415161718192021222324252627#include">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-20T14:29:49.000Z">
+<meta property="article:modified_time" content="2021-06-22T04:05:20.312Z">
+<meta property="article:author" content="Spica">
+<meta property="article:tag" content="总结">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Spica&#39;s blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/page/" class="navbar-menu button">about</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/page/" class="dropdown-menu button">about</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        CF Round 688 (Div.2) 题解
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2021/06/" class="post-meta__date button">2021-06-20</a>
+        
+    <span class="separate-dot"></span><a href="/categories/CF/" class="button">CF</a>
+
+    <span class="separate-dot"></span><a href="/categories/CF/%E7%AE%97%E6%B3%95/" class="button">算法</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+
+<article class="post content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  这一场也还是比较简单的…..对着题解都能够做出来</p>
+<!--more--->
+
+<h3 id="A-Cancel-the-Trains"><a href="#A-Cancel-the-Trains" class="headerlink" title="A. Cancel the Trains"></a>A. Cancel the Trains</h3><p>签到题，给定一些x轴和y轴上的点(x_i,0)和(0,y_i)问有多少个点对满足x_i &#x3D;&#x3D; y_i。由于x_i和y_i的都很小，所以开一个类似于桶排序的数组记录一下就好</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="type">int</span> t,n,m,x,ans;</span><br><span class="line"><span class="type">bool</span> arr[<span class="number">110</span>];</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios_base::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        <span class="keyword">while</span>(n--)&#123;</span><br><span class="line">            cin&gt;&gt;x;</span><br><span class="line">            arr[x]=<span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">            cin&gt;&gt;x;</span><br><span class="line">            <span class="keyword">if</span>(arr[x])++ans;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        <span class="built_in">memset</span>(arr,<span class="number">0</span>,<span class="keyword">sizeof</span> arr);</span><br><span class="line">        ans=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="B-Suffix-Operations"><a href="#B-Suffix-Operations" class="headerlink" title="B. Suffix Operations"></a>B. Suffix Operations</h3><p>给定一个长度为n的数组arr。我们拥有对数组的两种操作，</p>
+<ol>
+<li>将arr任意后缀上的所有元素+1</li>
+<li>将arr任意后缀上的所有元素-1</li>
+</ol>
+<p>现在我们拥有一次机会能改变数组中的任意一个元素为数组中的另外一个元素，求一个操作的最小次数使得数组中所有的元素都相同。</p>
+<p>首先，假设我们不使用这一次机会，那么我们可以直接把需要的修改次数求出来, which is 数组上的所有相邻元素的abs之和，这个数记做ans。</p>
+<p>现在考虑使用这一次机会会对我们的ans产生何种影响。考虑数组中的任意位置i ，在不使用机会的时候，我们对于i这一段的处理应该是，首先将 [i+1,n]的上所有元素调整成和arr[i]相同，接着将[i,n]的所有元素调整成和arr[i-1]相同。这样的做需要abs(arr[i+1]-arr[i])+abs(arr[i-1]-arr[i])次。在使用机会之后，我们可以将arr[i]换成arr[i+1]或者arr[i-1]，这样替换之后需要的机会次数就是abs(arr[i-1]-arr[i+1])，即我们此时不需要再对arr[i]做任何处理。因此这样对ans的影响就是abs(arr[i-1]-arr[i+1])-abs(arr[i+1]-arr[i])-abs(arr[i-1]-arr[i])</p>
+<p>最后，对于数组的首尾元素需要特别的写法因为一个没有i-1，一个没有i+1。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxm=<span class="number">200010</span>;</span><br><span class="line"> </span><br><span class="line"><span class="type">int</span> t,arr[maxm],n,cnt,upd=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios_base::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;arr[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;++i)&#123;</span><br><span class="line">            cin&gt;&gt;arr[i];</span><br><span class="line">            cnt+=<span class="built_in">abs</span>(arr[i]-arr[i<span class="number">-1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n<span class="number">-1</span>;++i)&#123;</span><br><span class="line">            upd=<span class="built_in">min</span>(upd,<span class="built_in">abs</span>(arr[i<span class="number">-1</span>]-arr[i+<span class="number">1</span>])-<span class="built_in">abs</span>(arr[i<span class="number">-1</span>]-arr[i])-<span class="built_in">abs</span>(arr[i]-arr[i+<span class="number">1</span>]));</span><br><span class="line">        &#125;</span><br><span class="line">        upd=<span class="built_in">min</span>(upd,-<span class="built_in">abs</span>(arr[<span class="number">0</span>]-arr[<span class="number">1</span>]));</span><br><span class="line">        upd=<span class="built_in">min</span>(upd,-<span class="built_in">abs</span>(arr[n<span class="number">-1</span>]-arr[n<span class="number">-2</span>]));</span><br><span class="line">        cout&lt;&lt;<span class="built_in">min</span>(cnt,cnt+upd)&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        cnt=<span class="number">0</span>,upd=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="C-Triangles"><a href="#C-Triangles" class="headerlink" title="C. Triangles"></a>C. Triangles</h3><p>给定一个n×n的方阵，方阵中的每一个元素都属于[0,9]。定义一个函数f(d)，其中d属于[0,9]，f(d)的值为一个方阵上的最大的三角形面积，其中，</p>
+<pre><code>1.  三角形每个点落在方阵的某个元素上
+2.  三角形每个点落在的方阵元素都是d
+3.  三角形至少要有一条边同方阵的边平行
+</code></pre>
+<p>对于每一个d∈[0,9]，求出在最多一次能够把方阵中的任意一个元素修改成d后的2*f(d)。</p>
+<p>n的范围&lt;&#x3D;2000</p>
+<p>显然要面积最大，那么在指定一个点之后，另外两个点应该隔得越远越好。因此我们首先用一个2层的for循环把d出现的最小行，最大行，最小列，最大列记录下来。然后枚举修改点d，对于每一个修改点，我们用它与相隔最远的两个点组成三角形，记录面积即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn=<span class="number">2010</span>;</span><br><span class="line"> </span><br><span class="line"><span class="type">int</span> t,n,ans[<span class="number">10</span>],x,minr[<span class="number">10</span>],maxr[<span class="number">10</span>],minc[<span class="number">10</span>],maxc[<span class="number">10</span>];</span><br><span class="line"><span class="type">char</span> arr[maxn][maxn];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span>;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios_base::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        cin&gt;&gt;n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">            cin&gt;&gt;arr[i]+<span class="number">1</span>;</span><br><span class="line">        <span class="built_in">init</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;++j)&#123;</span><br><span class="line">            x=arr[i][j]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            minr[x]=<span class="built_in">min</span>(minr[x],i),maxr[x]=<span class="built_in">max</span>(maxr[x],i);</span><br><span class="line">            minc[x]=<span class="built_in">min</span>(minc[x],j),maxc[x]=<span class="built_in">max</span>(maxc[x],j);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=n;++j)&#123;</span><br><span class="line">            x=arr[i][j]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            ans[x]=<span class="built_in">max</span>(ans[x],<span class="built_in">max</span>(i<span class="number">-1</span>,n-i)*<span class="built_in">max</span>(j-minc[x],maxc[x]-j));</span><br><span class="line">            ans[x]=<span class="built_in">max</span>(ans[x],<span class="built_in">max</span>(j<span class="number">-1</span>,n-j)*<span class="built_in">max</span>(i-minr[x],maxr[x]-i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;++i)cout&lt;&lt;ans[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(maxr,<span class="number">0</span>,<span class="keyword">sizeof</span> maxr);</span><br><span class="line">    <span class="built_in">memset</span>(maxc,<span class="number">0</span>,<span class="keyword">sizeof</span> maxc);</span><br><span class="line">    <span class="built_in">memset</span>(minr,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> minr);</span><br><span class="line">    <span class="built_in">memset</span>(minc,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> minc);</span><br><span class="line">    <span class="built_in">memset</span>(ans,<span class="number">0</span>,<span class="keyword">sizeof</span> ans);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="D-Checkpoints"><a href="#D-Checkpoints" class="headerlink" title="D. Checkpoints"></a>D. Checkpoints</h3><p>背景是玩游戏，通过一个游戏的关卡的概率是恒定的1&#x2F;2。游戏由许多连续的关卡组成，有些关卡设置了存档点，当在某一个关卡挑战失败后，会从最近的一次存档点开始重新挑战。例如该游戏有4个关卡，而存档点在1和3号关卡。在1号和2号关卡挑战失败会回到1号关卡重新开始挑战；而一旦到达3号之后，3号的存档点就被激活，之后就会从3号开始重新挑战。</p>
+<p>给定一个数k，要求构造出一个关卡使得通过该游戏的期望次数是k。假如无法构造则输出-1</p>
+<p>这道题是构造做法，采用的技巧是计算以存档点开始，之后跟随若干个无法存档的关卡的关卡段期望，其序列记做[1….0]；之后按照k组合预先构造的关卡段。</p>
+<p>对于一个仅有存档关卡，即[1]，通过的期望是2次。</p>
+<pre><code>+ 假设通过[1]的期望是x，那么x=1 * 1/2 + (1 + x) * 1/2，即1/2的概率直接通过，1/2的概率花费1次之后没有通过之后还需要x次通过，解得x=2
+</code></pre>
+<p>对于一个长度为n的[1…..0]的关卡，假设其通过的期望为x。考虑如何计算通过[1……00]，即在其后再附加一个0，的期望次数x1。</p>
+<ul>
+<li>x1 &#x3D; x + 1 * 1&#x2F;2 + (1+x1)*1&#x2F;2 &#x3D; 2 * (1+x)。其含义是已经使用了x次到达了最后一次关卡的门口，有1&#x2F;2的概率使用1步直接通过；另外1&#x2F;2的概率再使用1步之后回到了起点，需要额外的x1步通过。</li>
+</ul>
+<p>最后得出f(1)&#x3D;1, f(n+1)&#x3D;2(f(n)+1)</p>
+<p>构造出关卡段之后，就将k按照贪心或者二进制不断分配给当前最长的可能的段即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll =<span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxm=<span class="number">2010</span>;</span><br><span class="line"> </span><br><span class="line">ll n,t,k,arr[<span class="number">65</span>]&#123;<span class="number">2</span>&#125;,ans[maxm],sz;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios_base::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">1</span>;i&lt;=<span class="number">60</span>;++i)&#123;</span><br><span class="line">        arr[i]=(arr[i<span class="number">-1</span>]+<span class="number">1</span>)&lt;&lt;<span class="number">1ll</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        cin&gt;&gt;k;</span><br><span class="line">        <span class="keyword">if</span>(k&amp;<span class="number">1</span>)&#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">&quot;-1\n&quot;</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">60</span>;k&amp;&amp;i&gt;=<span class="number">0</span>;)&#123;</span><br><span class="line">            <span class="keyword">if</span>(k&gt;=arr[i])&#123;</span><br><span class="line">                <span class="comment">//cout&lt;&lt;k&lt;&lt;&#x27; &#x27;&lt;&lt;arr[i]&lt;&lt;&quot;\n&quot;;</span></span><br><span class="line">                ans[sz]=<span class="number">1</span>;</span><br><span class="line">                sz+=i+<span class="number">1</span>;</span><br><span class="line">                k-=arr[i];</span><br><span class="line">            &#125;<span class="keyword">else</span> --i;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;sz&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;sz;++i)</span><br><span class="line">            cout&lt;&lt;ans[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        <span class="built_in">memset</span>(ans,<span class="number">0</span>,<span class="keyword">sizeof</span> ans);</span><br><span class="line">        sz=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="E-Dog-Snacks"><a href="#E-Dog-Snacks" class="headerlink" title="E. Dog Snacks"></a>E. Dog Snacks</h3><p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1453/problem/E">题目</a>意思有点点冗长，但是理解起来难度不大这里就不再复述题目了；因为题目中要求的是一个最小k使得小狗能够完成任务；考虑某一个子树r，小狗总是从r的一个子树移动到另外一个子树，最后从r返回父节点。因此一个简单的想法就是让r最后一次的子树应该越短越好，因为最后一次从子树回来通过r回到r的父节点本身需要的路程就会长一点。有了这个基础想法后，我们考察r上的所有子树的“返回距离”，选择其中的最小的那一个再+1(通过r)返回给父节点作为r的父节点挑选其子树的根据。当然了，对于k的还有其他的约束，因为我们需要保证小狗最后一次不仅能够从r返回，也需要k能够保证小狗在r的子树之间穿梭，因此k应该至少是这些”返回距离”中的最大值+1，才能够保证从最深的子树中还有能力回到别的子树上。</p>
+<p>此外，一个例外就是根节点。因为根节点不需要考虑其父节点；因此k至少应该大于根节点中的”返回距离”最大的子树(对应最后返回根节点完成任务)，以及“返回距离“第二大的+1(对应穿梭完之后有能力进入最深的子树)</p>
+<p>用一个变量ans一直dfs维护k即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxm=<span class="number">200010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> t,n,<span class="built_in">dfs</span>(<span class="type">int</span> cur,<span class="type">int</span> p),ans;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; adj[maxm];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    ios_base::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        cin&gt;&gt;n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>,x,y;i&lt;n<span class="number">-1</span>;++i)&#123;</span><br><span class="line">            cin&gt;&gt;x&gt;&gt;y;</span><br><span class="line">            adj[x].<span class="built_in">push_back</span>(y);</span><br><span class="line">            adj[y].<span class="built_in">push_back</span>(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">dfs</span>(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i)adj[i].<span class="built_in">clear</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> cur,<span class="type">int</span> p)</span></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> nxt:adj[cur])</span><br><span class="line">    <span class="keyword">if</span>(nxt!=p)&#123;</span><br><span class="line">        tmp.<span class="built_in">push_back</span>(<span class="built_in">dfs</span>(nxt,cur));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(tmp.<span class="built_in">size</span>()&gt;<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="built_in">sort</span>(tmp.<span class="built_in">begin</span>(),tmp.<span class="built_in">end</span>());</span><br><span class="line">        ans=(cur==<span class="number">1</span>?<span class="built_in">max</span>(&#123;ans,tmp.<span class="built_in">back</span>(),tmp[tmp.<span class="built_in">size</span>()<span class="number">-2</span>]+<span class="number">1</span>&#125;):<span class="built_in">max</span>(ans,tmp.<span class="built_in">back</span>()+<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(tmp.<span class="built_in">empty</span>())<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    ans=<span class="built_in">max</span>(ans,tmp[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">return</span> tmp[<span class="number">0</span>]+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="F-Even-Harder"><a href="#F-Even-Harder" class="headerlink" title="F. Even Harder"></a>F. Even Harder</h3><p>平台跳跃类游戏里存在n个不同高度的平台，第i个平台有一个数arr[i]，代表可以跳跃到[i+1,i+arr[i]]中的任意一个平台。现在的要求是将一些平台的a_i置0，使得从第一个平台跳跃到第n个平台的方式数恰好只有一种，求最小操作次数。</p>
+<p>因为目标要求跳跃到某一个平台的方法数只有一种，因此某一个被跳跃到的平台的前驱一定是唯一的；否则就至少会有两种目标方案。定义状态dp[i] [j]表示在某一个平台k上，下一步会跳跃到i平台，同时最高能够跳跃到j平台的最小需要调整平台的次数。答案即为dp[n] [n]。接下来考虑状态转移方程；考察从某个j平台经过一次跳跃能否到达i平台上。按照我们的定义，dp[j] [i-1]为目前处于j的前驱而且最多也只能跳跃到i-1平台。假设 j +arr[j]&gt;&#x3D;i，此时意味着从j平台跳跃到i平台是可行的；综上此处的dp[j] [i-1] 在j +arr[j] &gt;&#x3D;i的情况下可以转移到 dp[i] [j+arr[j]]。那么这个转移的cost是多少呢？我们需要把从[j+1,i-1]中的所有能够跳跃到i的平台给清空，因为需要保证前驱唯一性，将这个cost记做cnt。对于j之前的前驱唯一性是由dp本身的性质保证的，因此不用再做额外计算。</p>
+<p>此外，按照我们的定义dp[i] [j]中的j始终是&gt;&#x3D;i的。在按照上述的转移方程计算完成之后，我们还需要对于所有的n&gt;&#x3D;j&gt;&#x3D;i+1,有dp[i] [j]&#x3D;min(dp[i] [j], dp[i] [j-1])。理由是按照题目要求，我们一定能够在将来跳到n处，因此需要对所有没有处理过的状态取min。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxm=<span class="number">3010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> t,n,arr[maxm],dp[maxm][maxm];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ios_base::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">    cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        cin&gt;&gt;n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;++i)cin&gt;&gt;arr[i];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>,cnt=<span class="number">0</span>;i&lt;=n;++i,cnt=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">memset</span>(dp[i]+i,<span class="number">0x3f</span>,<span class="built_in">sizeof</span>(<span class="type">int</span>)*(n-i+<span class="number">1</span>));</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=i<span class="number">-1</span>;j&gt;=<span class="number">1</span>;--j)</span><br><span class="line">            <span class="keyword">if</span>(j+arr[j]&gt;=i)</span><br><span class="line">                dp[i][j+arr[j]]=<span class="built_in">min</span>(dp[i][j+arr[j]],dp[j][i<span class="number">-1</span>]+cnt++);</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=i+<span class="number">1</span>;j&lt;=n;++j)</span><br><span class="line">                dp[i][j]=<span class="built_in">min</span>(dp[i][j],dp[i][j<span class="number">-1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;dp[n][n]&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+     
+    <div class="post-footer__meta"><p>更新于 2021-06-22</p></div> 
+    <div class="post-entry__tags"><a href="/tags/%E6%80%BB%E7%BB%93/" class="post-tags__link button"># 总结</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2021/07/21/%E8%83%A1%E4%B9%B1%E5%86%99%E7%BB%99%E4%BA%BA%E7%9C%8B%E7%9A%84%E5%B0%8F%E6%95%85%E4%BA%8B/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            胡乱写给人看的小故事（一二）
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2021/06/10/How-to-set-up-Alive2-on-Ubuntu-20-04-LTS-from-scratch/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            How to set up Alive2 on Ubuntu 20.04 LTS from scratch
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2022 <a href="/">Spica&#39;s Blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    </body>
+</html>

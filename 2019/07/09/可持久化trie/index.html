@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/images/safari-pinned-tab.svg">
+    
+
+
+    <!-- meta -->
+
+
+<title>可持久化trie和二进制trie | Spica&#39;s Blog</title>
+
+
+    <meta name="keywords" content="数据结构">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="可持久化的trie以及二进制trie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="可持久化trie和二进制trie">
+<meta property="og:url" content="http://spica.cloud/2019/07/09/%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96trie/index.html">
+<meta property="og:site_name" content="Spica&#39;s Blog">
+<meta property="og:description" content="可持久化的trie以及二进制trie">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/10/ZcDcvQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/10/ZcDx56.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/10/ZcBOtf.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/10/ZcrKxg.png">
+<meta property="article:published_time" content="2019-07-09T18:07:00.000Z">
+<meta property="article:modified_time" content="2019-07-10T08:49:47.503Z">
+<meta property="article:author" content="Spica">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/10/ZcDcvQ.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Spica&#39;s blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">archives</a>
+                
+                    <a href="/page/" class="navbar-menu button">about</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
+                
+                    <a href="/page/" class="dropdown-menu button">about</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        可持久化trie和二进制trie
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2019/07/" class="post-meta__date button">2019-07-09</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/" class="button">可持久化</a>
+
+    <span class="separate-dot"></span><a href="/categories/%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/trie/" class="button">trie</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+
+<article class="post content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>可持久化的trie以及二进制trie</p>
+<span id="more"></span>
+
+<p>这里不会对trie本身进行介绍。</p>
+<p>让我们首先从一道题目说起<a target="_blank" rel="noopener" href="http://codeforces.com/problemset/problem/916/D">CF916D Jamie and To-do List</a></p>
+<p>题目要求设计出一种储存字符串的优先级的数据结构，支持如下操作：</p>
+<ol>
+<li>set a x，将字符串a的priority设置为x，假若a原本存在，则将原优先级修改为x。</li>
+<li>remove a，将字符串a的记录移除，假若a不存在，则do nothing。</li>
+<li>query a，查询有多少个字符串的priority严格小于a</li>
+<li>undo d，假设当前是第i次操作，则将结构恢复到第i-d-1操作后的状态</li>
+<li>操作次数上限为10^5，字符串长度不会超过15，x范围是[1,10^9]，保证undo操作合法</li>
+</ol>
+<p>我们首先不考虑undo操作的话，经过思考，我们会发现应该需要两个数据结构，第一个用于维护字符串和priority的对应关系；第二个用于储存所有的priority用于查询rank。显然，第一个结构随便用一个hashmap或者trie，第二个使用一个能够查询rank的BST，e.g. treap, splay就能够完成。</p>
+<hr>
+<p>ds&lt;-&gt; data structure </p>
+<p>然而，现在+上了undo操作，这意味着我们需要把历史记录保存下来。具体实现便是使用两个数组firstds[max_operation_num], secondds[max_operation_num]在进行第i次操作时便读取firstds[i-1]和secondds[i-1]中的数据结构，然后将修改之后的数据结构放入firstds[i]和secondds[i]中，注意！我们这里不能够对第i-1位上的两个数据结构进行任何修改。</p>
+<p>假设我们依然采用之前的hashmap和BST，每一次操作我们都需要将之前的结构copy一遍然后再进行操作，无论是空间上还是时间上都感觉……太暴力了。</p>
+<hr>
+<p>让我们考虑一下第一个结构使用trie以及set一个原本不存在的字符串的情况。无妨说第一条指令是set aaa 5，insert之后的结果就是</p>
+<p><img src="https://s2.ax1x.com/2019/07/10/ZcDcvQ.png" alt="图1"></p>
+<p>第二条指令是set bbb 4，再次insert之后的结果就是</p>
+<p><img src="https://s2.ax1x.com/2019/07/10/ZcDx56.png" alt="图2"></p>
+<p>可以看出，前后的trie仅仅只有一条链的变化。说得更加详细一点：</p>
+<ol>
+<li>一个set a x操作后的trie必然会至少多出一个新节点n，就是用于存储新字符串优先级的节点(图一中的5和图二中的4，因为该字符串原本不存在</li>
+<li>对于1中所说的新节点n，我们需要一个新节点n’来使n’成为n的父亲，其中n’通过a中的最后一个字符指向n</li>
+<li>由于n’同样是一个新节点，我们依然需要一个新节点n’’来使n’’成为n’的父亲，其中n’’通过a中的倒数第二个字符指向n’</li>
+<li>……按照上述做法不断往上新建节点，最终就形成了一条链</li>
+</ol>
+<p>同样也是前后只有一条链的变化，很容易让人联想到可持久化线段树中的操作。</p>
+<p>因此我们copy实际上并不是copy整个trie树，而是<strong>仅仅只是新建一条链，剩下的节点和之前的树共用</strong>。下图是存有aaa的trie中先插入aab再插入cc的过程。第一排代表着理论上发生的情况，第二排是实际上共用了节点的情况</p>
+<p><img src="https://s2.ax1x.com/2019/07/10/ZcBOtf.png" alt="图1"></p>
+<p>刚刚讨论的情况是set一个原本不存在的字符串，假若是set是更新一个字符串的priority呢？按照如上的分析，结果是一样的，同样是修改了一条链而已。对于remove a操作呢？看做set a 0即可。可持久化trie的基本思想到此结束</p>
+<hr>
+<p>二进制trie：用于储存整数的trie，可以用于查询rank。对于一个int，我们由高位向低位储存一个整数。与普通trie不同的是，二进制trie在插入的时候并不是仅仅是最后一个节点有特别的值，而是从根节点开始到最后一个节点整条链上的值都进行修改。例如，向二进制trie中插入1、2和3如图4</p>
+<p><img src="https://s2.ax1x.com/2019/07/10/ZcrKxg.png" alt="图4"></p>
+<p>我们可以发现，从根节点到某一个节点n所经过的路径path，节点n上的对应的值就是以path为前缀的int出现次数。那么对应某一个int n我们如何查询它的rank呢？算法描述如下：</p>
+<p>定义局部变量now&#x3D;root，ans&#x3D;0表示答案，迭代变量i : 从n的最高位-&gt;n的最低位</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(i==1)</span><br><span class="line">​	ans=ans+(now经过0所指向的节点上的值)</span><br><span class="line">​now=(now经过i所指向的节点)</span><br></pre></td></tr></table></figure>
+
+<p>正确性？想一想就知道了嘛</p>
+<hr>
+<p>最后，题目的AC代码:</p>
+<p><a target="_blank" rel="noopener" href="http://codeforces.com/contest/916/submission/34342389">好懂的递归写法</a></p>
+<p><a target="_blank" rel="noopener" href="http://codeforces.com/contest/916/submission/56698896">可读性没有上面好的循环写法</a></p>
+<p>在循环写法中set与add的时候为什么需要一个tmp变量呢？答案是我们需要让新节点指向原来的相同位置上的节点的子节点来达到共用的效果，tmp变量跟随着now同时向下移动来进行copy node的操作。假若tmp为空了，那么也就没有子节点可以共用了，tmp也就没有意义了。</p>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>更新于 2019-07-10</p></div> 
+    <div class="post-entry__tags"><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-tags__link button"># 数据结构</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2019/07/12/Hollow-Knight%E6%B8%B8%E6%88%8F%E6%80%BB%E7%BB%93/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            Hollow Knight游戏总结
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2019/01/12/%E5%BC%B9%E4%B8%B8%E8%AE%BA%E7%A0%B4%E6%80%BB%E7%BB%93/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            弹丸论破总结
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2022 <a href="/">Spica&#39;s Blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    </body>
+</html>
