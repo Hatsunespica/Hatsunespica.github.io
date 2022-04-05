@@ -51,7 +51,7 @@
 <meta property="og:description" content="This is a blog about a LLVM IR mutation tool called alive-mutate based on Alive2.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-08T12:21:45.000Z">
-<meta property="article:modified_time" content="2022-04-05T23:19:28.153Z">
+<meta property="article:modified_time" content="2022-04-05T23:22:04.115Z">
 <meta property="article:author" content="Spica">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -168,28 +168,23 @@
 
 <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h1 id="Basic-Design-and-workflow"><a href="#Basic-Design-and-workflow" class="headerlink" title="Basic Design and workflow"></a>Basic Design and workflow</h1><h1 id="Supported-Mutations"><a href="#Supported-Mutations" class="headerlink" title="Supported Mutations"></a>Supported Mutations</h1><p>Alive-mutate can perform a lot mutations on the codes divided into two categories. One is called simple mutations and the other is complex mutations. Simple mutations are in-place mutations. They don’t require extra information from the code and easy to undo. Complex mutations are performed on a copy of the original modular module and need to maintain data structures as iterating the code such as dominated variables.</p>
 <h2 id="Simple-Mutation"><a href="#Simple-Mutation" class="headerlink" title="Simple Mutation"></a>Simple Mutation</h2><p>Simple Mutations are basically intuitive and simple operations such as swapping operands or reset instruction flags. They are easy to be performed and have the “undo” ability to cancel their change; thus, instead of cloning whole module and destroy it after mutation, all performed mutations would be undo at the last. Besides operations supported could be divided into different groups according to what objects they are applied to. </p>
-<h3 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h3><pre><code>LLVM provides attribute sets associated with functions as well as their parameters such as &quot;noinline&quot; and &quot;immarg&quot;. Attributes constrain certain behaviors of compilers and are served as assumptions for particular optimization passes. It is necessary to see what those optimizations would do with unsatisfied assumptions. 
-
-In addition, for function with void as return type, we can remove them safely because we don&#39;t need to care about contaminating the dominance tree due to no new definitions would be introduced here. It is interesting to see how optimization passes would do with removing random void functions.
-
-
-In summary, we support below mutations on functions
-
-- Remove void function calls
-- Remove or set &quot;nofree&quot; flag for function definitions
-- Remove or set &quot;dereferenceable&quot; and &quot;nocapture&quot; for function parameters
-</code></pre>
-<h3 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h3><pre><code>LLVM supports a large amount of binary instructions. It is important to have the ability to modify them freely in order to improve search space. However, because flags are associated with certain instructions we can&#39;t just replace the operator randomly. For instance, bit operations such as bit-xor has no associated flags while integer operations such as add or multiply need flags related to overflow. We divide binary instructions into different groups and every member in the group share a common set of attributes. Thus we can replace the operator with any one if both of them are in the same group or reset flags by the group information. Besides, alive-mutate contains two more mutations, swapping the operands and replacing constant with a random chosen one if any.
-
-In a nutshell, we support below mutations on binary instructions
-
-- Replace operator 
-- Swap operands
-- Reset instruction flags
-- Replace constant
-
-Interestingly, there is one more instruction called GEP(GetElementPointer) Instruction. It has an &quot;inbounds&quot; attribute which tends to be buggy so we support remove or reset the flag on GEP instructions as well.
-</code></pre>
+<h3 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h3><p>LLVM provides attribute sets associated with functions as well as their parameters such as “noinline” and “immarg”. Attributes constrain certain behaviors of compilers and are served as assumptions for particular optimization passes. It is necessary to see what those optimizations would do with unsatisfied assumptions. </p>
+<p>In addition, for function with void as return type, we can remove them safely because we don’t need to care about contaminating the dominance tree due to no new definitions would be introduced here. It is interesting to see how optimization passes would do with removing random void functions.</p>
+<p>In summary, we support below mutations on functions</p>
+<ul>
+<li>Remove void function calls</li>
+<li>Remove or set “nofree” flag for function definitions</li>
+<li>Remove or set “dereferenceable” and “nocapture” for function parameters</li>
+</ul>
+<h3 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h3><p>LLVM supports a large amount of binary instructions. It is important to have the ability to modify them freely in order to improve search space. However, because flags are associated with certain instructions we can’t just replace the operator randomly. For instance, bit operations such as bit-xor has no associated flags while integer operations such as add or multiply need flags related to overflow. We divide binary instructions into different groups and every member in the group share a common set of attributes. Thus we can replace the operator with any one if both of them are in the same group or reset flags by the group information. Besides, alive-mutate contains two more mutations, swapping the operands and replacing constant with a random chosen one if any.</p>
+<p>In a nutshell, we support below mutations on binary instructions</p>
+<ul>
+<li>Replace operator </li>
+<li>Swap operands</li>
+<li>Reset instruction flags</li>
+<li>Replace constant</li>
+</ul>
+<p>Interestingly, there is one more instruction called GEP(GetElementPointer) Instruction. It has an “inbounds” attribute which tends to be buggy so we support remove or reset the flag on GEP instructions as well.</p>
 <!--
 void function
 binary instruction
