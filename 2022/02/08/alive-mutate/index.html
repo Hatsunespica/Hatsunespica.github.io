@@ -51,7 +51,7 @@
 <meta property="og:description" content="This is a blog about a LLVM IR mutation tool called alive-mutate based on Alive2.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-08T12:21:45.000Z">
-<meta property="article:modified_time" content="2022-04-05T23:22:04.115Z">
+<meta property="article:modified_time" content="2022-04-06T01:07:17.449Z">
 <meta property="article:author" content="Spica">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -170,14 +170,14 @@
 <h2 id="Simple-Mutation"><a href="#Simple-Mutation" class="headerlink" title="Simple Mutation"></a>Simple Mutation</h2><p>Simple Mutations are basically intuitive and simple operations such as swapping operands or reset instruction flags. They are easy to be performed and have the “undo” ability to cancel their change; thus, instead of cloning whole module and destroy it after mutation, all performed mutations would be undo at the last. Besides operations supported could be divided into different groups according to what objects they are applied to. </p>
 <h3 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h3><p>LLVM provides attribute sets associated with functions as well as their parameters such as “noinline” and “immarg”. Attributes constrain certain behaviors of compilers and are served as assumptions for particular optimization passes. It is necessary to see what those optimizations would do with unsatisfied assumptions. </p>
 <p>In addition, for function with void as return type, we can remove them safely because we don’t need to care about contaminating the dominance tree due to no new definitions would be introduced here. It is interesting to see how optimization passes would do with removing random void functions.</p>
-<p>In summary, we support below mutations on functions</p>
+<p>In summary, we support below mutations on functions.</p>
 <ul>
 <li>Remove void function calls</li>
 <li>Remove or set “nofree” flag for function definitions</li>
 <li>Remove or set “dereferenceable” and “nocapture” for function parameters</li>
 </ul>
 <h3 id="Instructions"><a href="#Instructions" class="headerlink" title="Instructions"></a>Instructions</h3><p>LLVM supports a large amount of binary instructions. It is important to have the ability to modify them freely in order to improve search space. However, because flags are associated with certain instructions we can’t just replace the operator randomly. For instance, bit operations such as bit-xor has no associated flags while integer operations such as add or multiply need flags related to overflow. We divide binary instructions into different groups and every member in the group share a common set of attributes. Thus we can replace the operator with any one if both of them are in the same group or reset flags by the group information. Besides, alive-mutate contains two more mutations, swapping the operands and replacing constant with a random chosen one if any.</p>
-<p>In a nutshell, we support below mutations on binary instructions</p>
+<p>In a nutshell, we support below mutations on binary instructions.</p>
 <ul>
 <li>Replace operator </li>
 <li>Swap operands</li>
@@ -197,10 +197,14 @@ GEP instruction
 Function definition 
 Function parameter    
 -->
-<h2 id="Complex-Mutation"><a href="#Complex-Mutation" class="headerlink" title="Complex Mutation"></a>Complex Mutation</h2><h1 id="Experiment-Result"><a href="#Experiment-Result" class="headerlink" title="Experiment Result"></a>Experiment Result</h1><h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1>
+<h2 id="Complex-Mutation"><a href="#Complex-Mutation" class="headerlink" title="Complex Mutation"></a>Complex Mutation</h2><p>Complex mutations is used for those complicated mutations which requires extra information obtained from the code such as dependency or dominance. Besides, some mutations have difference range to be applied. Unlike simple mutations explained before, some mutations work on a basic block or whole function which some of them are applied on an instruction. It is necessary to distinguish between them and applied appropriately. </p>
+<p>Given alive-mutate often asked to generate a huge amount of variants, it is natural to store some information beforehand and save it for later use instead calculating it every time whenever meets the scenario. For example, we need to use the dominance information thus dominance trees are saved for every function in the module during initialization. Besides, by iterating all instructions over functions, we can collect a set of used constant which is helpful when obtaining a random constant because an existent constant is often a better choice comparing to a totally random one. </p>
+<p>Because complex mutations are hard to undo, we will perform mutations on a copy of the origin. However, one question shows up here is discrepancies between the copy and origin. The information we saved is based on the origin, but the instruction we might update is on the copy. There are different objects in the memory. Moreover, mutations can generate new variables or definition and they would be discarded later. To solve the first problem, a 1-to-1 map is used for building the connection from values(instructions, functions, etc.) in the origin to values in the copy. For the second problem, a 2-level look-up mechanism is used. All information from the origin is saved at the first level container. All temporary definitions are saved at the second level container. When looking up a value, the searcher can pick one freely on two levels. After mutations done, only the second level container would be cleared.</p>
+<h3 id="Shuffle-Instructions"><a href="#Shuffle-Instructions" class="headerlink" title="Shuffle Instructions"></a>Shuffle Instructions</h3><p>This mutations is used for shuffling consecutive instructions without any dependencies among them. Because of no dependencies, any permutation of instructions is viable and won’t cause any influence on dominated tree. We call such consecutive instructions as a shuffle block. During initialization phase, alive-mutate will record all shuffle blocks with size larger than 1 when iterating all instructions. A hash set is enough to the property of shuffle blocks. When arriving a new LLVM basic block, it will read all available shuffle blocks inside current basic block and shuffle them one by one. </p>
+<h3 id="Replace-usage-in-an-instruction"><a href="#Replace-usage-in-an-instruction" class="headerlink" title="Replace usage in an instruction"></a>Replace usage in an instruction</h3><h3 id="Move-an-instruction"><a href="#Move-an-instruction" class="headerlink" title="Move an instruction"></a>Move an instruction</h3><h3 id="Insert-a-code-piece"><a href="#Insert-a-code-piece" class="headerlink" title="Insert a code piece"></a>Insert a code piece</h3><h1 id="Experiment-Result"><a href="#Experiment-Result" class="headerlink" title="Experiment Result"></a>Experiment Result</h1><h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1>
     </div>
      
-    <div class="post-footer__meta"><p>更新于 2022-04-05</p></div> 
+    <div class="post-footer__meta"><p>更新于 2022-04-06</p></div> 
     <div class="post-entry__tags"></div> 
 </article>
 
